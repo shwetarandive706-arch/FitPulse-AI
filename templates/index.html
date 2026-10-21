@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitPulse AI — Gym Membership & Subscription Intelligence OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/qrcode.min.js') }}"></script>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="brand-icon">⚡</div>
+      <div class="brand-text">
+        <h1>FitPulse AI</h1>
+        <span>Gym Membership & Intelligence OS</span>
+      </div>
+    </div>
+
+    <!-- Quick Demo Switcher for Examiners / Viva -->
+    <div class="demo-switcher">
+      <span>Demo Switcher:</span>
+      <button class="demo-btn active" data-user="admin">Admin / Manager</button>
+      <button class="demo-btn" data-user="member1">Rahul (Active Pro)</button>
+      <button class="demo-btn" data-user="member3">Amit (High Churn Risk)</button>
+      <button class="demo-btn" data-user="member5">Rohan (Expired)</button>
+    </div>
+
+    <div class="topbar-actions">
+      <div class="user-badge">
+        <div class="user-avatar" id="topUserAvatar">A</div>
+        <div class="user-info">
+          <span class="u-name" id="topUserName">Gym Director</span>
+          <span class="u-role" id="topUserRole">ADMIN</span>
+        </div>
+      </div>
+      <button class="btn-logout" id="logoutBtn">Switch / Reset</button>
+    </div>
+  </header>
+
+  <!-- APP LAYOUT -->
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <!-- Admin Navigation -->
+      <a class="nav-item active admin-only" data-tab="dashboard">
+        <span class="nav-icon">📊</span> Dashboard
+      </a>
+      <a class="nav-item admin-only" data-tab="members">
+        <span class="nav-icon">👥</span> Member Directory
+      </a>
+      <a class="nav-item admin-only" data-tab="ai-hub">
+        <span class="nav-icon">🧠</span> AI Churn Intelligence
+      </a>
+      <a class="nav-item admin-only" data-tab="qr-terminal">
+        <span class="nav-icon">🎟️</span> QR Turnstile Terminal
+      </a>
+
+      <!-- Member Navigation -->
+      <a class="nav-item member-only hidden" data-tab="member-portal">
+        <span class="nav-icon">👤</span> My Membership & Pass
+      </a>
+      <a class="nav-item member-only hidden" data-tab="ai-planner">
+        <span class="nav-icon">💪</span> AI Workout & Diet
+      </a>
+
+      <div style="margin-top:auto; padding:12px; background:var(--bg-card); border-radius:var(--radius-md); border:1px solid var(--border);">
+        <small style="color:var(--text-dim); display:block; font-weight:600; text-transform:uppercase; margin-bottom:4px;">Academic Project</small>
+        <div style="font-size:0.75rem; color:var(--text-muted);">P.D.E.A's Waghire College of Arts, Commerce & Science</div>
+        <div style="font-size:0.7rem; color:var(--primary); font-weight:700; margin-top:4px;">T.Y. B.Sc(CS) 2026-27</div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      
+      <!-- ================= 1. ADMIN DASHBOARD ================= -->
+      <div id="tab-dashboard" class="tab-view">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-title">Total Members</div>
+            <div class="kpi-value" id="kpiTotalMembers">0</div>
+            <div class="kpi-sub">Registered Gym Profiles</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Active Subscriptions</div>
+            <div class="kpi-value" id="kpiActiveSubs">0</div>
+            <div class="kpi-sub">Valid Paid Members</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Today's Check-ins</div>
+            <div class="kpi-value" id="kpiTodayCheckins">0</div>
+            <div class="kpi-sub">Turnstile Entry Logs</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-title">Total Paid Revenue</div>
+            <div class="kpi-value" id="kpiTotalRevenue">₹0</div>
+            <div class="kpi-sub">Subscription Collections</div>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:24px;">
+          <!-- Left: Peak Hours Occupancy Forecast -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title">
+                <span>📈</span> AI Gym Footfall & Peak Occupancy Forecast
+              </div>
+              <span class="badge badge-info" id="currOccupancyStatus">Loading...</span>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">
+              Predicted facility occupancy based on historical check-in time-series regression.
+            </p>
+            <div id="footfallBarChart" style="display:flex; gap:6px; height:120px; align-items:flex-end;"></div>
+          </div>
+
+          <!-- Right: Live Checkin Activity -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><span>⚡</span> Live Check-in Feed</div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Member</th>
+                    <th>Method</th>
+                    <th>Time</th>
+                    <th>Duration</th>
+                  </tr>
+                </thead>
+                <tbody id="recentCheckinsTbody">
+                  <tr><td colspan="4" style="text-align:center;">Loading...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 2. MEMBER DIRECTORY ================= -->
+      <div id="tab-members" class="tab-view hidden">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>👥</span> Member & Subscription Roster
+              <span class="badge badge-info" id="memberCountBadge">0 Members</span>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <a href="/api/export/members.csv" class="btn btn-secondary">📥 Export CSV</a>
+              <button class="btn btn-secondary" onclick="window.print()">🖨️ Print Sheet</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Member Name</th>
+                  <th>Plan & Tier</th>
+                  <th>Subscription Status</th>
+                  <th>Total Visits</th>
+                  <th>Last Check-in</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="membersTableTbody">
+                <tr><td colspan="7" style="text-align:center;">Loading members...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 3. AI CHURN INTELLIGENCE HUB ================= -->
+      <div id="tab-ai-hub" class="tab-view hidden">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>🧠</span> AI Member Churn Risk Intelligence Engine
+            </div>
+            <button class="btn btn-primary" onclick="AdminModule.loadAIHub()">⚡ Rescan All Members</button>
+          </div>
+
+          <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:20px;">
+            Our Supervised <strong>Random Forest Classifier</strong> evaluates attendance frequency drop, recency of last visit, session duration, and payment history to flag members at risk of quitting before their subscription expires.
+          </p>
+
+          <div class="kpi-grid" style="margin-bottom:20px;">
+            <div class="kpi-card">
+              <div class="kpi-title">Critical Churn Risk (&gt;70%)</div>
+              <div class="kpi-value" style="color:var(--danger);" id="churnHighRiskCount">0</div>
+              <div class="kpi-sub" style="color:var(--danger);">Immediate Intervention Required</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Moderate Risk (35-70%)</div>
+              <div class="kpi-value" style="color:var(--warning);" id="churnMedRiskCount">0</div>
+              <div class="kpi-sub" style="color:var(--warning);">Send Motivational Nudge</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">Low Risk / Engaged (&lt;35%)</div>
+              <div class="kpi-value" style="color:var(--primary);" id="churnLowRiskCount">0</div>
+              <div class="kpi-sub" style="color:var(--primary);">High Retention & Loyalty</div>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Member</th>
+                  <th>Plan</th>
+                  <th>Risk Tier</th>
+                  <th>Identified Risk Drivers</th>
+                  <th>Prescribed AI Retention Strategy</th>
+                </tr>
+              </thead>
+              <tbody id="churnScanTbody">
+                <tr><td colspan="5" style="text-align:center;">Scanning members with ML model...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 4. QR TURNSTILE TERMINAL ================= -->
+      <div id="tab-qr-terminal" class="tab-view hidden">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+          <!-- Front-Desk Dynamic QR Token Terminal -->
+          <div class="panel" style="text-align:center;">
+            <div class="panel-header">
+              <div class="panel-title"><span>🎟️</span> Front-Desk Dynamic QR Gate</div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:20px;">
+              Display this screen at the gym turnstile. Refreshes every 5 minutes with SHA-256 tokens to prevent photo sharing and proxy check-ins.
+            </p>
+            <div class="qr-card">
+              <div id="turnstileQrBox"></div>
+              <div class="qr-timer" id="turnstileTimer">Expires in: 300s</div>
+            </div>
+          </div>
+
+          <!-- Quick Check-in Simulator for Viva Demonstration -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><span>📱</span> Instant Check-In Simulator</div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:18px;">
+              Simulate turnstile QR scanning directly from the browser during your viva examination.
+            </p>
+
+            <div class="form-group">
+              <label>Select Member to Check-in:</label>
+              <select class="form-control" id="testMemberSelect">
+                <option value="1">Rahul Sharma (#1 - Active Pro)</option>
+                <option value="2">Priya Patel (#2 - Active Elite)</option>
+                <option value="3">Amit Verma (#3 - Active Monthly)</option>
+                <option value="4">Sneha Kulkarni (#4 - Active VIP)</option>
+                <option value="5">Rohan Joshi (#5 - Expired Plan)</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="AdminModule.simulateCheckin()">
+              ⚡ Simulate Turnstile QR Scan
+            </button>
+
+            <div style="margin-top:24px; padding:16px; background:var(--bg-surface); border-radius:var(--radius-md); border:1px solid var(--border);">
+              <strong style="font-size:0.85rem; color:var(--secondary);">Turnstile Security Checks:</strong>
+              <ul style="font-size:0.8rem; color:var(--text-muted); margin-left:18px; margin-top:6px;">
+                <li>Validates cryptographic session token authenticity</li>
+                <li>Verifies member active subscription & expiry date</li>
+                <li>Rejects duplicate check-ins within 30 minutes</li>
+                <li>Logs timestamp and session duration into SQLite database</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 5. MEMBER PORTAL ================= -->
+      <div id="tab-member-portal" class="tab-view hidden">
+        <!-- Holographic Member Pass -->
+        <div class="member-pass">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+              <span class="badge badge-success" id="memPassBadge">ACTIVE</span>
+              <h2 id="memPassName" style="margin-top:10px; font-size:1.4rem;">Member Name</h2>
+              <span style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);" id="memPassId">#FP-0</span>
+            </div>
+            <div style="font-size:2rem;">🏋️</div>
+          </div>
+
+          <div style="margin-top:20px; padding:12px; background:rgba(0,0,0,0.25); border-radius:var(--radius-md);">
+            <div style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase;">Subscription Plan</div>
+            <div style="font-size:1rem; font-weight:700; color:#fff;" id="memPassPlan">Pro Quarterly</div>
+            <div style="font-size:0.8rem; color:var(--secondary); font-weight:600; margin-top:2px;" id="memPassDays">45 Days Remaining</div>
+          </div>
+
+          <div style="margin-top:14px; font-size:0.75rem; color:var(--text-dim);" id="memPassExpiry">
+            Valid Until: 2026-11-01
+          </div>
+        </div>
+
+        <!-- Dynamic QR Access Pass -->
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+          <div class="panel" style="text-align:center;">
+            <div class="panel-header">
+              <div class="panel-title"><span>📱</span> My Contactless QR Pass</div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:18px;">
+              Scan this personal pass at the gym entrance gate scanner.
+            </p>
+            <div class="qr-card">
+              <div id="memberQrBox"></div>
+              <div class="qr-timer" id="memberQrTimer">Refreshes in 300s</div>
+            </div>
+          </div>
+
+          <!-- Attendance Stats -->
+          <div class="panel">
+            <div class="panel-header">
+              <div class="panel-title"><span>📊</span> My Workout History</div>
+            </div>
+            <div class="kpi-grid" style="grid-template-columns:1fr 1fr; margin-bottom:16px;">
+              <div class="kpi-card">
+                <div class="kpi-title">Total Workouts</div>
+                <div class="kpi-value" id="memTotalVisits">0</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-title">Weekly Average</div>
+                <div class="kpi-value" id="memWeeklyAvg">0 / wk</div>
+              </div>
+            </div>
+            <div style="padding:14px; background:var(--bg-surface); border-radius:var(--radius-md); border:1px solid var(--border);">
+              <span style="font-size:0.82rem; color:var(--text-muted);">Last Visited:</span>
+              <strong style="margin-left:6px; color:#fff;" id="memLastVisit">Yesterday</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 6. AI WORKOUT & DIET PLANNER ================= -->
+      <div id="tab-ai-planner" class="tab-view hidden">
+        <div class="panel">
+          <div class="panel-header">
+            <div class="panel-title"><span>💪</span> AI Personalized Fitness & Nutrition Engine</div>
+          </div>
+
+          <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:20px;">
+            Provide your biometric parameters to compute your <strong>BMR (Mifflin-St Jeor)</strong>, <strong>TDEE</strong>, macronutrient targets, and tailored weekly workout split.
+          </p>
+
+          <form onsubmit="MemberModule.generateAIPlan(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Current Weight (kg):</label>
+                <input type="number" step="0.5" id="aiWeight" class="form-control" value="74.5" required>
+              </div>
+              <div class="form-group">
+                <label>Height (cm):</label>
+                <input type="number" step="0.5" id="aiHeight" class="form-control" value="178" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Age:</label>
+                <input type="number" id="aiAge" class="form-control" value="26" required>
+              </div>
+              <div class="form-group">
+                <label>Gender:</label>
+                <select id="aiGender" class="form-control">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Primary Fitness Goal:</label>
+                <select id="aiGoal" class="form-control">
+                  <option value="Muscle Gain">Muscle Gain (Hypertrophy)</option>
+                  <option value="Weight Loss">Weight Loss (Fat Burn & HIIT)</option>
+                  <option value="Strength & Power">Strength & Power (5x5 Powerlifting)</option>
+                  <option value="General Fitness">General Fitness (Conditioning)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Dietary Preference:</label>
+                <select id="aiDiet" class="form-control">
+                  <option value="Vegetarian">Vegetarian</option>
+                  <option value="Non-Vegetarian" selected>Non-Vegetarian</option>
+                  <option value="Vegan">Vegan</option>
+                  <option value="Keto">Keto / Low-Carb</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Days Available to Workout Per Week:</label>
+              <select id="aiDays" class="form-control">
+                <option value="3">3 Days (Full Body / Conditioning)</option>
+                <option value="4" selected>4 Days (Upper / Lower Split)</option>
+                <option value="5">5 Days (Targeted Muscle Split)</option>
+                <option value="6">6 Days (Push / Pull / Legs PPL)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">
+              ⚡ Generate Personalized AI Fitness & Nutrition Blueprint
+            </button>
+          </form>
+
+          <!-- Plan Output Container -->
+          <div id="aiPlanResults" class="hidden" style="margin-top:28px; padding-top:20px; border-top:1px solid var(--border);">
+            <div class="kpi-grid" style="margin-bottom:24px;">
+              <div class="kpi-card">
+                <div class="kpi-title">Body Mass Index (BMI)</div>
+                <div class="kpi-value" id="resBmi">23.5</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-title">Target Daily Calories</div>
+                <div class="kpi-value" id="resTdee" style="color:var(--primary);">2,450 kcal</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-title">Protein Target</div>
+                <div class="kpi-value" id="resProtein" style="color:var(--secondary);">160g</div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-title">Carbs / Fat</div>
+                <div class="kpi-value" style="font-size:1.4rem;"><span id="resCarbs">280g</span> / <span id="resFat">60g</span></div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-title">Daily Hydration</div>
+                <div class="kpi-value" id="resWater" style="color:#60a5fa;">3.5 L</div>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+              <!-- Workout split -->
+              <div>
+                <h3 style="margin-bottom:12px; font-size:1.05rem;">🏋️ Custom Workout Routine:</h3>
+                <div id="resWorkoutRoutine"></div>
+              </div>
+              <!-- Nutrition plan -->
+              <div>
+                <h3 style="margin-bottom:12px; font-size:1.05rem;">🥗 Daily Nutrition & Meal Blueprint:</h3>
+                <div id="resMealPlan"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- RENEW SUBSCRIPTION MODAL -->
+  <div id="renewModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <button class="modal-close" onclick="AdminModule.closeRenewModal()">&times;</button>
+      <h3 style="margin-bottom:16px;">Renew / Assign Subscription</h3>
+      <form onsubmit="AdminModule.submitRenewal(event)">
+        <input type="hidden" id="renewMemberIdInput">
+        <div class="form-group">
+          <label>Select Membership Tier:</label>
+          <select id="renewPlanSelect" class="form-control">
+            <option value="1">Starter Monthly (30 Days - ₹1,499)</option>
+            <option value="2" selected>Pro Quarterly (90 Days - ₹3,999)</option>
+            <option value="3">Elite Annual (365 Days - ₹11,999)</option>
+            <option value="4">VIP Personal Training (365 Days - ₹24,999)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Payment Method:</label>
+          <select class="form-control">
+            <option value="UPI">UPI / Google Pay / PhonePe</option>
+            <option value="Card">Credit / Debit Card</option>
+            <option value="Cash">Cash at Reception</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:12px;">Confirm & Activate Subscription</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- LOGIN MODAL / SCREEN -->
+  <div id="loginModal" class="modal-overlay hidden">
+    <div class="login-card">
+      <button class="modal-close" onclick="document.getElementById('loginModal').classList.add('hidden')">&times;</button>
+      <div class="login-brand">
+        <div class="brand-icon">⚡</div>
+        <h2>FitPulse AI Login</h2>
+        <p>Enter your credentials to access your dashboard</p>
+      </div>
+      <form onsubmit="App.handleLoginForm(event)">
+        <div class="form-group">
+          <label for="loginIdentifier">Username or Email</label>
+          <input type="text" id="loginIdentifier" class="form-control" placeholder="e.g. admin or member1" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">
+          Log In
+        </button>
+      </form>
+      <div style="margin-top:20px; text-align:center; font-size:0.8rem; color:var(--text-muted);">
+        Demo Logins: <strong style="color:var(--primary);">admin / admin123</strong> or <strong style="color:var(--secondary);">member1 / 1234</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- SCRIPTS -->
+  <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/member.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

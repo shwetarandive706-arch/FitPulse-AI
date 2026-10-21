@@ -1,0 +1,187 @@
+{
+  "goals": {
+    "Weight Loss": {
+      "calorie_adjustment": -500,
+      "protein_per_kg": 2.0,
+      "carb_percentage": 0.35,
+      "fat_percentage": 0.25,
+      "workout_focus": "High Intensity Interval Training (HIIT), Functional Resistance, Cardio End",
+      "recommended_splits": [
+        "Full Body Circuit (3 Days)",
+        "Upper / Lower Fat Burn (4 Days)"
+      ],
+      "routine_details": {
+        "Day 1": [
+          "Barbell Squats: 3x12",
+          "Push-ups: 3x15",
+          "Dumbbell Bent-over Row: 3x12",
+          "Plank: 3x45s",
+          "Treadmill Incline Walk: 15 mins"
+        ],
+        "Day 2": [
+          "Rest or 20 min LISS Cardio"
+        ],
+        "Day 3": [
+          "Romanian Deadlifts: 3x12",
+          "Dumbbell Overhead Press: 3x12",
+          "Lat Pulldown: 3x12",
+          "Bicycle Crunches: 3x20",
+          "Jump Rope: 10 mins"
+        ],
+        "Day 4": [
+          "Rest"
+        ],
+        "Day 5": [
+          "Kettlebell Swings: 4x15",
+          "Bodyweight Walking Lunges: 3x15/leg",
+          "Cable Face Pulls: 3x15",
+          "Rowing Machine Intervals: 12 mins"
+        ]
+      }
+    },
+    "Muscle Gain": {
+      "calorie_adjustment": 350,
+      "protein_per_kg": 2.2,
+      "carb_percentage": 0.5,
+      "fat_percentage": 0.2,
+      "workout_focus": "Hypertrophy Resistance, Progressive Overload, Compound Lifts",
+      "recommended_splits": [
+        "Push / Pull / Legs (PPL - 6 Days)",
+        "Upper / Lower Split (4 Days)"
+      ],
+      "routine_details": {
+        "Day 1 (Push)": [
+          "Barbell Bench Press: 4x8-10",
+          "Incline DB Press: 3x10-12",
+          "Standing Overhead Press: 3x8-10",
+          "Tricep Rope Pushdowns: 3x12-15",
+          "Lateral Raises: 4x15"
+        ],
+        "Day 2 (Pull)": [
+          "Deadlifts or Rack Pulls: 4x6-8",
+          "Barbell Rows: 4x8-10",
+          "Neutral Grip Lat Pulldown: 3x10-12",
+          "Barbell Bicep Curls: 3x10-12",
+          "Face Pulls: 3x15"
+        ],
+        "Day 3 (Legs)": [
+          "Barbell Back Squats: 4x8-10",
+          "Romanian Deadlifts: 3x10-12",
+          "Leg Press: 3x12",
+          "Leg Curls: 3x15",
+          "Standing Calf Raises: 4x15"
+        ],
+        "Day 4 (Rest)": [
+          "Active Recovery & Mobility"
+        ],
+        "Day 5 (Upper)": [
+          "Incline Barbell Bench: 4x8-10",
+          "Weighted Pull-ups / Lat Pulldown: 4x8-10",
+          "Seated Cable Row: 3x10-12",
+          "Dumbbell Hammer Curls: 3x12",
+          "Overhead Tricep Extension: 3x12"
+        ],
+        "Day 6 (Lower)": [
+          "Front Squats / Hack Squats: 4x8-10",
+          "Bulgarian Split Squats: 3x10/leg",
+          "Hamstring Curls: 4x12",
+          "Hanging Leg Raises: 3x15"
+        ]
+      }
+    },
+    "Strength & Power": {
+      "calorie_adjustment": 200,
+      "protein_per_kg": 2.0,
+      "carb_percentage": 0.45,
+      "fat_percentage": 0.25,
+      "workout_focus": "Heavy Compound Movements (1-5 reps), Neural Drive, Long Rest",
+      "recommended_splits": [
+        "5x5 Powerlifting Split (3 Days)",
+        "Upper/Lower Strength (4 Days)"
+      ],
+      "routine_details": {
+        "Day 1": [
+          "Barbell Back Squats: 5x5 (Heavy)",
+          "Bench Press: 5x5",
+          "Barbell Rows: 5x5",
+          "Plank: 3x60s"
+        ],
+        "Day 2": [
+          "Rest"
+        ],
+        "Day 3": [
+          "Overhead Military Press: 5x5",
+          "Conventional Deadlift: 1x5 (Heavy)",
+          "Chin-ups: 3x6-8",
+          "Farmer Walks: 3x40m"
+        ],
+        "Day 4": [
+          "Rest"
+        ],
+        "Day 5": [
+          "Paused Squats: 3x5",
+          "Close-Grip Bench: 3x6",
+          "Pendlay Row: 4x6",
+          "Ab Wheel Rollouts: 3x12"
+        ]
+      }
+    },
+    "General Fitness": {
+      "calorie_adjustment": 0,
+      "protein_per_kg": 1.6,
+      "carb_percentage": 0.45,
+      "fat_percentage": 0.3,
+      "workout_focus": "Cardiovascular Health, Core Stability, Balanced Muscular Endurance",
+      "recommended_splits": [
+        "Total Body Conditioning (3 Days)"
+      ],
+      "routine_details": {
+        "Day 1": [
+          "Goblet Squats: 3x12",
+          "Dumbbell Bench Press: 3x12",
+          "Lat Pulldown: 3x12",
+          "Plank: 3x45s",
+          "Stair Climber: 10 mins"
+        ],
+        "Day 2": [
+          "Brisk Walk / Cycling: 30 mins"
+        ],
+        "Day 3": [
+          "Dumbbell Romanian Deadlift: 3x12",
+          "Seated Dumbbell Shoulder Press: 3x12",
+          "Cable Row: 3x12",
+          "Russian Twists: 3x20"
+        ],
+        "Day 4": [
+          "Rest or Yoga / Stretching"
+        ]
+      }
+    }
+  },
+  "diet_plans": {
+    "Vegetarian": {
+      "breakfast": "Oats with protein powder or soy milk, chia seeds, almonds, and banana slice.",
+      "lunch": "Paneer tikka or tofu bowl with brown rice, mixed greens, dal/lentil soup.",
+      "snack": "Sprouted moong salad, Greek yogurt / roasted chickpeas.",
+      "dinner": "Quinoa / multigrain roti, mixed vegetables curry, paneer/tofu, cucumber salad."
+    },
+    "Non-Vegetarian": {
+      "breakfast": "3-4 Egg omelette / boiled eggs with whole wheat toast and avocado/peanut butter.",
+      "lunch": "Grilled chicken breast or fish fillet with jasmine rice, steamed broccoli, olive oil drizzle.",
+      "snack": "Whey protein shake with a handful of walnuts and apple.",
+      "dinner": "Lean turkey / chicken stir-fry with mixed peppers, sweet potatoes, and green salad."
+    },
+    "Vegan": {
+      "breakfast": "Overnight oats with pea protein, flaxseeds, almond butter, and blueberries.",
+      "lunch": "Tempeh / seasoned tofu scramble with quinoa, black beans, salsa, and avocado.",
+      "snack": "Edamame beans, roasted pumpkin seeds, or protein smoothie with spinach.",
+      "dinner": "Lentil / chickpea pasta with tomato basil sauce, nutritional yeast, and roasted vegetables."
+    },
+    "Keto": {
+      "breakfast": "Eggs scrambled in grass-fed butter with spinach, avocado, and cheddar cheese.",
+      "lunch": "Grilled chicken thighs or salmon with cauli-rice and olive oil Caesar salad.",
+      "snack": "Macadamia nuts, string cheese, or keto collagen shake.",
+      "dinner": "Pan-seared steak or paneer with grilled asparagus and herb butter."
+    }
+  }
+}
